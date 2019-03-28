@@ -7,6 +7,18 @@ $.getJSON("/articles", function(data) {
   }
 });
 
+// When you click the Fetch button
+$(document).on("click", ".btn-fetch", function() {
+  alert('Articles up-to-date!');
+
+  $.ajax({
+    method: "GET",
+    url: "/scrape"
+  })
+    .done(function(data) {
+      location.reload();
+    });
+});
 
 // Whenever someone clicks a p tag
 $(document).on("click", "p", function() {
