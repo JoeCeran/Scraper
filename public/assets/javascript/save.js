@@ -1,15 +1,13 @@
 
 
-// Grab the articles as a json
-$.getJSON("/articles", function(data) {
-  console.log(data[1].snippet);
-  // For each one
-  for (var i = 0; i < 5; i++) {
-    // Display the apropos information on the page
-    $("#articles").append("<div class='row'><div data-id=" + data[i]._id + "><a href="+ data[i].link +">" + data[i].title + "</a><br>"+data[i].snippet
-    + "<button id='savearticle' data-id=" + data[i]._id + "class='btn btn-outline-primary btn-sm'>Save Article</button></div></div>");
-  }
-});
+$.getJSON("/saved", function(data) {
+  for (var i = 0; i < data.length; i++) {
+
+  $("#articles").append(
+      "<div class='col-sm-12' style='margin-bottom:60px;'><div class='card'><div class='card-body'><a class='title-link' href='" + data[i].link +"'><h5>" + data[i].title + "</h5></a><hr><p class='card-text'>" + data[i].snippet + "</p><button data-id='" + data[i]._id + "' class='btn-note btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#myModal' style='margin-right:10px;'>Note</button><button id='btn-delete' data-id='" + data[i]._id + "' class='btn btn-outline-danger btn-sm'>Delete</button></div></div></div>"
+    );
+}
+})
 
 
 // Whenever someone clicks a p tag
