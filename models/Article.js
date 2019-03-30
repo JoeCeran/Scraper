@@ -16,23 +16,21 @@ var ArticleSchema = new Schema({
     type: String,
     required: true
   },
-
+  // `snippet` is required and of type String
   snippet: {
     type: String,
   },
-  // `note` is an object that stores a Note id
-  // The ref property links the ObjectId to the Note model
-  // This allows us to populate the Article with an associated Note
-  
   note: {
     type: Schema.Types.ObjectId,
     ref: "Note"
   },
+  // `note` is an object that stores a Note id
+  // The ref property links the ObjectId to the Note model
+  // This allows us to populate the Article with an associated Note
   isSaved: {
     type: Boolean,
     default: false
   },
-
   articleCreated: {
     type: Date,
     default: Date.now
