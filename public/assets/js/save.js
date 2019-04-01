@@ -73,7 +73,6 @@ $(document).on("click", "#savenote", function() {
 });
 
 
-// When you click the Delete button
 $(document).on("click", "#btn-delete", function() {
   
   var thisId = $(this).attr("data-id");
