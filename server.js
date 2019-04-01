@@ -28,15 +28,15 @@ let exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
+app.use(express.static("public"));
 
 // Connect to the Mongo DB
 //mongoose.connect("mongodb://localhost/unit18Populater", { useNewUrlParser: true });
 
-var MONGODB_URI = "mongodb://localhost/unit18Populater";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/unit18Populater";
 mongoose.connect(MONGODB_URI);
 
-require("./public/assets/javascript/app.js")(app);
-//require("./routes/api-routes.js")(app);
+
 
 // Routes
 app.get("/", function(req, res) {
@@ -49,12 +49,12 @@ app.get("/", function(req, res) {
   });
 });
 
-app.get("/saved", function(req, res) {
-  db.Article.find({"saved": true}).populate("notes").exec(function(error, articles) {
+app.get("/save", function(req, res) {
+  db.Article.find({"save": true}).populate("notes").exec(function(error, articles) {
     var hbsObject = {
       article: articles
     };
-    res.render("saved", hbsObject);
+    res.render("save", hbsObject);
   });
 });
 
