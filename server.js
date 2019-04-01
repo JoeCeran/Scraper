@@ -15,31 +15,32 @@ var PORT = 3000;
 // Initialize Express
 var app = express();
 
-// Serve static content for the app from the "public" directory in the application directory.
-app.use(express.static("public"));
+// Configure middleware
 
-// Parse application body as JSON
+//Use morgan logger for logging requests
+app.use(logger("dev"));
+// Parse request body as JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Set Handlebars.
-var exphbs = require("express-handlebars");
+let exphbs = require("express-handlebars");
 
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-// Import routes and give the server access to them.
-var routes = require("./controllers/articlecontroller.js");
-
-app.use(routes);
-
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/unit18Populater", { useNewUrlParser: true });
+//mongoose.connect("mongodb://localhost/unit18Populater", { useNewUrlParser: true });
+
+var MONGODB_URI = "mongodb://localhost/unit18Populater";
+mongoose.connect(MONGODB_URI);
+
+require("./public/assets/javascript/app.js")(app);
+//require("./routes/api-routes.js")(app);
 
 // Routes
 app.get("/", function(req, res) {
-  Article.find({"saved": false}, function(error, data) {
+  db.Article.find({"saved": false}, function(error, data) {
     var hbsObject = {
       article: data
     };
@@ -49,7 +50,7 @@ app.get("/", function(req, res) {
 });
 
 app.get("/saved", function(req, res) {
-  Article.find({"saved": true}).populate("notes").exec(function(error, articles) {
+  db.Article.find({"saved": true}).populate("notes").exec(function(error, articles) {
     var hbsObject = {
       article: articles
     };
