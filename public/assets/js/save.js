@@ -6,7 +6,7 @@ $.getJSON("/saved", function(data) {
 
   $("#articles").append(
       "<div class='col-sm-12' style='margin-bottom:60px;'><div class='card'><div class='card-body'><a class='title-link' href='" + data[i].link +"'><h5>" 
-      + data[i].title + "</h5></a><hr><p class='card-text'>" + data[i].snippet 
+      + data[i].title + "</h5></a><hr><p class='card-text'>" + data[i].summary
       + "</p><button data-id='" + data[i]._id + "' class='btn-note btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#myModal' style='margin-right:10px;'>Note</button><button id='btn-delete' data-id='" 
       + data[i]._id + "' class='btn btn-outline-danger btn-sm'>Delete</button></div></div></div>"
     );

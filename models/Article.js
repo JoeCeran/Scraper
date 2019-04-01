@@ -17,7 +17,7 @@ var ArticleSchema = new Schema({
     required: true
   },
   // `snippet` is required and of type String
-  snippet: {
+  summary: {
     type: String,
   },
   note: {
