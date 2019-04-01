@@ -2,7 +2,7 @@
 
 // Grab the articles as a json
 $.getJSON("/articles", function(data) {
-  for (var i = 0; i < data.length; i++) {
+  for (var i = 0; i < 10; i++) {
 
      $("#articles").append("<div class='col-sm-12' style='margin-bottom:60px;'><div class='card'><div class='card-body'><a class='title-link' href='" + data[i].link +"'><h5>" + data[i].title + "</h5></a><hr><p class='card-text'>" + data[i].snippet + "</p><button data-id='" + data[i]._id + "' class='btn-note btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#myModal' style='margin-right:10px;'>Note</button><button id='btn-save' data-id='" + data[i]._id + "' class='btn btn-outline-primary btn-sm'>Save Article</button></div></div></div>"
     );
@@ -39,6 +39,7 @@ $(document).on("click", ".btn-delete", function() {
 
 // When you click the savenote button
 $(document).on("click", "#savenote", function() {
+  alert('click 1!');
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
 
@@ -67,8 +68,8 @@ $(document).on("click", "#savenote", function() {
 });
 
 // When you click the Save Article button
-$(document).on("click", "#savearticle", function() {
-  console.log("clicked!");
+$(document).on("click", "#btn-save", function() {
+  alert('click 2!');
   $(this).addClass("disabled");
   var thisId = $(this).attr("data-id");
   console.log(thisId);

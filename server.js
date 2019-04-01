@@ -1,7 +1,6 @@
 var express = require("express");
 var logger = require("morgan");
 var mongoose = require("mongoose");
-
 // Our scraping tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
 // It works on the client and on the server
@@ -16,25 +15,52 @@ var PORT = 3000;
 // Initialize Express
 var app = express();
 
-// Configure middleware
-
-// Use morgan logger for logging requests
-app.use(logger("dev"));
-// Parse request body as JSON
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-// Make public a static folder
+// Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static("public"));
 
+// Parse application body as JSON
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Set Handlebars.
+var exphbs = require("express-handlebars");
+
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+
+// Import routes and give the server access to them.
+var routes = require("./controllers/articlecontroller.js");
+
+app.use(routes);
+
+
 // Connect to the Mongo DB
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+mongoose.connect("mongodb://localhost/unit18Populater", { useNewUrlParser: true });
 
-mongoose.connect(MONGODB_URI);
+// Routes
+app.get("/", function(req, res) {
+  Article.find({"saved": false}, function(error, data) {
+    var hbsObject = {
+      article: data
+    };
+    console.log(hbsObject);
+    res.render("index", hbsObject);
+  });
+});
 
-// A GET route for scraping the invision blog **
+app.get("/saved", function(req, res) {
+  Article.find({"saved": true}).populate("notes").exec(function(error, articles) {
+    var hbsObject = {
+      article: articles
+    };
+    res.render("saved", hbsObject);
+  });
+});
+
+// A GET route for scraping the echoJS website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with axios
-  axios.get("http://www.nytimes.com/").then(function(response) {
+  axios.get("http://www.echojs.com/").then(function(response) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
 
@@ -50,11 +76,6 @@ app.get("/scrape", function(req, res) {
       result.link = $(this)
         .children("a")
         .attr("href");
-      result.snippet = $(this)
-        .siblings('p')
-        .text()
-        .trim();
-      result.isSaved = false
 
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
@@ -72,7 +93,6 @@ app.get("/scrape", function(req, res) {
     res.send("Scrape Complete");
   });
 });
-
 
 // Route for getting all Articles from the db
 app.get("/articles", function(req, res) {
