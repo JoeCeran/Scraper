@@ -7,7 +7,7 @@ $.getJSON("/saved", function(data) {
   $("#articles").append(
       "<div class='col-sm-12' style='margin-bottom:60px;'><div class='card'><div class='card-body'><a class='title-link' href='" + data[i].link +"'><h5>" 
       + data[i].title + "</h5></a><hr><p class='card-text'>" + data[i].summary
-      + "</p><button data-id='" + data[i]._id + "' class='btn-note btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#myModal' style='margin-right:10px;'>Note</button><button id='btn-delete' data-id='" 
+      + "</p><button data-id='" + data[i]._id + "' class='note-btn btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#myModal' style='margin-right:10px;'>Note</button><button id='delete-btn' data-id='" 
       + data[i]._id + "' class='btn btn-outline-danger btn-sm'>Delete</button></div></div></div>"
     );
 }
@@ -15,7 +15,7 @@ $.getJSON("/saved", function(data) {
 });
 
 // When you click the Note button
-$(document).on("click", ".btn-note", function() {
+$(document).on("click", ".note-btn", function() {
   
   $(".modal-title").empty();
   $(".input").empty();
@@ -43,19 +43,14 @@ $(document).on("click", ".btn-note", function() {
     });
 });
 
-// When you click the savenote button
-$(document).on("click", "#savenote", function() {
-  // Grab the id associated with the article from the submit button
+$(document).on("click", "#save-note", function() {
   var thisId = $(this).attr("data-id");
 
-  // Run a POST request to change the note, using what's entered in the inputs
   $.ajax({
     method: "POST",
     url: "/articles/" + thisId,
     data: {
-      // Value taken from title input
       title: $("#titleinput").val(),
-      // Value taken from note textarea
       body: $("#bodyinput").val()
     }
   })
@@ -73,7 +68,7 @@ $(document).on("click", "#savenote", function() {
 });
 
 
-$(document).on("click", "#btn-delete", function() {
+$(document).on("click", "#delete-btn", function() {
   
   var thisId = $(this).attr("data-id");
   console.log(thisId);
