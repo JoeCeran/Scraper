@@ -5,9 +5,9 @@ $.getJSON("/saved", function(data) {
   for (var i = 0; i < data.length; i++) {
 
   $("#articles").append(
-      "<div class='col-sm-12' style='margin-bottom:60px;'><div class='card'><div class='card-body'><a class='title-link' href='" + data[i].link +"'><h5>" 
+      "<div class='col-sm-12'><div class='card'><div class='card-body'><a class='title-link' href='" + data[i].link +"'><h5>" 
       + data[i].title + "</h5></a><hr><p class='card-text'>" + data[i].summary
-      + "</p><button data-id='" + data[i]._id + "' class='note-btn btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#myModal' style='margin-right:10px;'>Note</button><button id='delete-btn' data-id='" 
+      + "</p><button data-id='" + data[i]._id + "' class='note-btn btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#myModal';'>Note</button><button id='delete-btn' data-id='" 
       + data[i]._id + "' class='btn btn-outline-danger btn-sm'>Delete</button></div></div></div>"
     );
 }
@@ -33,7 +33,7 @@ $(document).on("click", ".note-btn", function() {
 
       $(".modal-title").append("<h5>" + data.title + "</h5>");
       $(".input").append("<textarea id='bodyinput' name='body'></textarea>");
-      $(".input").append("<button data-id='" + data._id + "' id='savenote' class='btn btn-primary btn-sm' style='margin-top:20px;'data-dismiss='modal'>Save Note</button>");
+      $(".input").append("<button data-id='" + data._id + "' id='savenote' class='btn btn-primary btn-sm';'data-dismiss='modal'>Save Note</button>");
 
       // If there's a note in the article
       if (data.note) {
