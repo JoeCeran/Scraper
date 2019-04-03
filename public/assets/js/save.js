@@ -3,7 +3,6 @@ jQuery(document).ready(function($){
 // Grab the articles as a json
 $.getJSON("/saved", function(data) {
   for (var i = 0; i < data.length; i++) {
-
   $("#articles").append(
       "<div class='col-sm-12'><div class='card'><div class='card-body'><a class='title-link' href='" + data[i].link +"'><h5>" 
       + data[i].title + "</h5></a><hr><p class='card-text'>" + data[i].summary
@@ -16,10 +15,8 @@ $.getJSON("/saved", function(data) {
 
 // When you click the Note button
 $(document).on("click", ".note-btn", function() {
-  
   $(".modal-title").empty();
   $(".input").empty();
-
   // Save the id from .btn-note
   var thisId = $(this).attr("data-id");
 
@@ -45,7 +42,6 @@ $(document).on("click", ".note-btn", function() {
 
 $(document).on("click", "#save-note", function() {
   var thisId = $(this).attr("data-id");
-
   $.ajax({
     method: "POST",
     url: "/articles/" + thisId,
@@ -69,16 +65,13 @@ $(document).on("click", "#save-note", function() {
 
 
 $(document).on("click", "#delete-btn", function() {
-  
   var thisId = $(this).attr("data-id");
   console.log(thisId);
-
   $.ajax({
     method: "PUT",
     url: "/delete/" + thisId,
    
   })
-  
   .done(function(data) {
       console.log(data);
       location.reload();

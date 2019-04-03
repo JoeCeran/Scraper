@@ -9,12 +9,10 @@ $.getJSON("/articles", function(data) {
      + data[i]._id + "' class='btn btn-outline-primary btn-sm'>Save Article</button></div></div></div>"
     );
 }
-
   console.log(data);
 });
 
 $(document).on("click", ".fetch-btn", function() {
- 
   $.ajax({
     method: "GET",
     url: "/scrape"
@@ -24,22 +22,19 @@ $(document).on("click", ".fetch-btn", function() {
     });
 });
 
+//$(".delete-btn").on("click", function() {
 $(document).on("click", ".delete-btn", function() {
-  
-
-  for (var i = 0; i < 10; i++) {
+  event.preventDefault();
+  location.reload();
   $.ajax({
-    method: "PUT",
-    url: "/delete/" + i,
-  
-  })
-``
-  
-  .done(function(data) {
-      console.log(data);
-      location.reload();
+      type: 'DELETE',
+      url: '/drop-articles',
+      success: function(response) {
+          if (response == 'error') {
+              console.log('Err!');
+          }
+      }
   });
-  }
 });
 
 
@@ -51,9 +46,7 @@ $(document).on("click", "#save-btn", function() {
   $.ajax({
     method: "PUT",
     url: "/saved/" + thisId,
-   
-  })
-  
+  }) 
   .done(function(data) {
       console.log(data);
   });

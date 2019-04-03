@@ -177,6 +177,25 @@ app.post("/delete", function(req, res) {
     });
 });
 
+app.delete("/drop-articles", function(req, res, next) {
+  db.Article.remove({}, function(err) {
+      if (err) {
+          console.log(err)
+      } else {
+          console.log("articles dropped!");
+      }
+  })
+  .then(function (dropnotes) {
+      db.Note.remove({}, function(err) {
+          if (err) {
+              console.log(err)
+          } else {
+              console.log("notes dropped!");
+          }
+      })
+  })
+});
+
 
 // Start the server
 app.listen(PORT, function() {
