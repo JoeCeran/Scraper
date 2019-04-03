@@ -28,7 +28,7 @@ $(document).on("click", ".delete-btn", function() {
   location.reload();
   $.ajax({
       type: 'DELETE',
-      url: '/drop-articles',
+      url: '/drop',
       success: function(response) {
           if (response == 'error') {
               console.log('Err!');
