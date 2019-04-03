@@ -177,7 +177,7 @@ app.post("/delete", function(req, res) {
     });
 });
 
-app.delete("/drop-articles", function(req, res, next) {
+app.delete("/drop", function(req, res, next) {
   db.Article.remove({}, function(err) {
       if (err) {
           console.log(err)
